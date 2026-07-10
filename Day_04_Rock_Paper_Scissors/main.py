@@ -27,23 +27,19 @@ scissors=("""
       (__)
 ---._(__)
 """)
-game_setup=[rock,paper,scissors]
-user_choice=int(input("enter your choice  0 for 'rock',"
-                      " 1 for 'paper', 2 for "
-                      "'scissors':\n"))
-print(game_setup[user_choice])
-computer_choice=random.randint(0,2 )
-print(f"computer choice is ")
-print(game_setup[computer_choice])
-if user_choice>=3 or user_choice<0:
-    print("invalid number")
-elif user_choice>=3 or user_choice<0:
-    print("invalid number")
-elif user_choice==0 and computer_choice==2:
-    print("you win")
-elif user_choice<computer_choice:
-    print("you lose")
-elif computer_choice==user_choice:
-    print("draw")
-elif user_choice>computer_choice:
-    print("you win ")
+choices=[rock, paper, scissors]
+computer = random.randint(0,2)
+user_choice=int(input("enter 0 for rock,  1 for 'paper',2 for 'scissors':"))
+print(choices[user_choice])
+print(choices[computer])
+if user_choice == computer:
+    print("Draw")
+elif user_choice == 0 and computer== 2:
+    print("You win")
+elif user_choice == 1 and computer== 0:
+    print("You win")
+
+elif user_choice == 2 and computer== 1:
+    print("You win")
+else:
+    print("You lose")
