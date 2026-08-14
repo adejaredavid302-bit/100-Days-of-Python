@@ -1,65 +1,58 @@
-# Day 29 – Project
+Nice — **Day 29 completed.** Here’s the README in the same format you've been using.
+
+# Day 29 – Password Manager
 
 ## Overview
 
-Day 29 of the 100 Days of Code course focused on working with **APIs, JSON data, and external data sources**. The project helped me understand how Python programs can communicate with online services and retrieve useful information.
+On Day 29 of the 100 Days of Code challenge, I built a **Password Manager GUI application** using Python and Tkinter.
 
-This day built on the programming concepts I had already learned and introduced me to the idea of connecting Python applications to real-world data.
+The application allows users to save website login information, generate strong passwords, and store the details in a local file.
 
 ## Topics Covered
 
-* APIs
-* API requests
+* Tkinter GUI
+* `Entry` widgets
+* `Button` widgets
+* `Label` widgets
+* `grid()` layout manager
+* Functions
+* File handling
+* Reading and writing files
 * JSON data
-* HTTP requests
-* Working with API responses
-* Accessing data from external services
-* Reading and extracting information from JSON
-* Using Python libraries to interact with APIs
-* Working with real-world data
+* JSON serialization and deserialization
+* Exception handling
+* Password generation
+* User input validation
 
 ## What I Learned
 
-One of the main things I learned on Day 29 was how **APIs allow different software applications to communicate with each other**.
-
-I learned that instead of having all the information stored inside my own program, I can request information from an external service through an API.
-
-I also learned how API responses are commonly returned as **JSON**, which can be converted into Python dictionaries and other data structures.
-
-This helped me understand how Python can be used beyond simple local programs and can interact with real-world online services.
+* How to build a more complete GUI application with Tkinter.
+* How to collect information from Entry widgets.
+* How to save application data to a file.
+* How JSON can be used to store structured data.
+* How to read existing JSON data and update it.
+* How to handle errors when searching for saved information.
+* How to connect multiple functions to buttons in a GUI application.
+* How different parts of a Python application can work together.
 
 ## Challenges
 
-The biggest challenge was understanding how data returned from an API is structured and how to access the specific information I needed.
+The main challenge was connecting the GUI elements with the file-handling and JSON functionality.
 
-It took some practice to understand the relationship between:
-
-* API requests
-* API responses
-* JSON
-* Python dictionaries
-* Keys and values
-
-Once I understood the structure of the returned data, working with it became much easier.
+I also had to understand how to read existing data, modify it, and save the updated information without losing the previous entries.
 
 ## Reflection
 
-Day 29 was an important step because I started seeing how Python can be used to build applications that interact with the real world.
+Day 29 helped me understand how Python can be used to create a practical application rather than just small programs.
 
-Before this, most of my projects mainly depended on information that I provided directly to the program. Working with APIs showed me that my programs can retrieve and process information from external services.
-
-This is especially useful for my long-term goal of becoming an **AI Engineer**, because APIs, data processing, and communication between different systems are important parts of modern software and AI applications.
+I am becoming more comfortable working with Tkinter, functions, files, and structured data. Each project is making Python feel more natural compared to when I started Day 1.
 
 ## Course Progress
 
-**100 Days of Code – Day 29/100**
-
-I have completed Day 29 and continued building my Python programming foundation.
-
-**Progress: 29%**
+**Day 29 / 100 completed**
 
 ## About Me
 
 I am currently learning Python through Angela Yu's **100 Days of Code: The Complete Python Pro Bootcamp**.
 
-My long-term goal is to become an **AI Engineer**, and I am using this course to build a strong foundation in Python before moving deeper into data structures, machine learning, deep learning, and AI development.
+My goal is to build a strong foundation in Python and continue progressing toward AI and software engineering.
