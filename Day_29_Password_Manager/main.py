@@ -5,7 +5,8 @@ import pyperclip
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def password_generator():
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+    letters = ['a', 'b', 'c', 'd',
+               'e', 'f', 'g', 'h',
                'i', 'j', 'k', 'l', 'm,',
          'n', 'o', 'p', 'q', 'r', 's',
                't', 'u', 'v', 'w', 'x', 'y', 'z']
@@ -20,7 +21,7 @@ def password_generator():
     password_list=password_letters+password_numbers+password_symbols
     random.shuffle(password_list)
     password= "".join(password_list)
-    password_entry.delete(0, password)
+    password_entry.insert(0, password)
     pyperclip.copy(password)
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_password():
@@ -77,8 +78,8 @@ password_entry.grid(row=3, column=1)
 password_button=Button(text="Generate password",command=password_generator)
 password_button.grid(row=3, column=2)
 
-password_saver=Button(text="Add",width=36)
-password_saver.grid(row=4, column=1,columnspan=2,command=save_password)
+password_saver=Button(text="Add",width=36,command=save_password)
+password_saver.grid(row=4, column=1,columnspan=2)
 
 
 window.mainloop()
