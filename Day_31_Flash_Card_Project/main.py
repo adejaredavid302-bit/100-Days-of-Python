@@ -4,9 +4,8 @@ import pandas
 import random
 BACKGROUND_COLOR = "#B1DDC6"
 current_card = {}
-row={}
 try:
-    data_file=pandas.read_csv("./data/word_to_learn.csv")
+    data_file=pandas.read_csv("./data/words_to_learn.csv")
 except FileNotFoundError:
     original_data=pandas.read_csv("./data/french_words.csv")
     print(original_data)
