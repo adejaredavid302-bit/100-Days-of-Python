@@ -1,5 +1,3 @@
-Absolutely. Here is your **Day 31 README**, based on the Flash Card project you built and the concepts you actually used.
-
 # Day 31 – Flash Card Project
 
 ## Overview
