@@ -48,7 +48,6 @@ I learned how Python can take information from an external service, make a decis
 This project helped me understand how APIs can be combined with automation to create useful applications.
 
 ## Course Progress
-
 **Day 35 / 100**
 
 35 days completed.
