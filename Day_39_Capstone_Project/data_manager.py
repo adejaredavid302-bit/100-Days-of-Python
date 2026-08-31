@@ -16,3 +16,19 @@ class DataManager:
         self.destination_data=data["sheet1"]
         return self.destination_data
 
+    def update_lowest_price(self, destination_id, new_price):
+        update_endpoint = f"{SHEETY_ENDPOINT}/{destination_id}"
+
+        body = {
+            "sheet1": {
+                "lowestPrice": new_price
+            }
+        }
+
+        response = requests.put(
+            update_endpoint,
+            json=body,
+            auth=self.auth
+        )
+
+        print(response.text)

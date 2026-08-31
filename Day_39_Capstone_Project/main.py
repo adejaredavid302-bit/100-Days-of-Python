@@ -35,7 +35,7 @@ for destination in sheet_data:
     pprint(f"Getting flights for {destination['city']}...")
     flights = flight_search.check_flights(
         ORIGIN_CITY_IATA,
-        destination["iataCode"],
+        destination["iata"],
         from_time=tomorrow,
         to_time=six_months_from_today
     )
@@ -46,8 +46,8 @@ for destination in sheet_data:
         pprint(f"Lower price flight found to {destination['city']}!")
         data_manager.update_lowest_price(destination["id"], cheapest_flight.price)
 
-    message = (
-        f"Low price alert!\n" f"From: {cheapest_flight.origin_city}\n" f"To: {cheapest_flight.destination_city}\n"
-        f"" f"Price: GBP {cheapest_flight.price}\n" f"Departure: {cheapest_flight.out_date}\n"
-        f"Return: {cheapest_flight.return_date}")
-    notification_manager.send_whatsapp(message)
+        message = (
+            f"Low price alert!\n" f"From: {cheapest_flight.origin_airport}\n" f"To: {cheapest_flight.destination_airport}\n"
+            f"" f"Price: GBP {cheapest_flight.price}\n" f"Departure: {cheapest_flight.out_date}\n"
+            f"Return: {cheapest_flight.return_date}")
+        notification_manager.send_whatsapp(message)
