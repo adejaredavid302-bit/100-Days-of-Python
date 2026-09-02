@@ -1,7 +1,7 @@
 #This file will need to use the DataManager,FlightSearch, FlightData, NotificationManager classes to achieve the program requirements.
 import requests_cache
 from pprint import pprint
-from data_manager import DataManager
+from Day_39_Capstone_Project.data_manager import DataManager
 from flight_search import FlightSearch
 from datetime import datetime, timedelta
 from flight_data import find_cheapest_flight
