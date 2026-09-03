@@ -30,5 +30,4 @@ class DataManager:
             json=body,
             auth=self.auth
         )
-
         print(response.text)
