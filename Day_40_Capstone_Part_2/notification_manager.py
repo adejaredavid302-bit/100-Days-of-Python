@@ -15,7 +15,6 @@ class NotificationManager:
             to=f'whatsapp:{os.environ["TWILIO_VERIFIED_NUMBER"]}'
         )
         print(message.sid)
-
     def send_emails(self, email_list, email_body):
         with self.connection:
             self.connection.starttls()
