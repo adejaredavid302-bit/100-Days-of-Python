@@ -2,7 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-# Import exceptions
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import os
 import time
@@ -23,9 +22,7 @@ wait = WebDriverWait(driver, 2)
 
 driver.get(GYM_URL)
 
-# ----------------  Step 9: Network Resilience ----------------
 
-# Simple retry wrapper
 def retry(func, retries=7, description=None):
     for i in range(retries):
         print(f"Trying {description}. Attempt: {i + 1}")
@@ -56,7 +53,6 @@ def login():
 
 def book_class(booking_button):
     booking_button.click()
-    # Wait for button state to change - will time out if booking failed
     wait.until(lambda d: booking_button.text == "Booked")
 
 retry(login, description="login")
