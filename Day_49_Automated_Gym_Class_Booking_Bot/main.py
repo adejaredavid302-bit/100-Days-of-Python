@@ -1,57 +1,73 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+# Import exceptions
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import os
 import time
-from dotenv import load_dotenv
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException, WebDriverException, TimeoutException
 
-load_dotenv()
+ACCOUNT_EMAIL = os.getenv("EMAIL")
+ACCOUNT_PASSWORD = os.getenv("PASSWORD")
+GYM_URL = "https://appbrewery.github.io/gym/"
 
 chrome_options = webdriver.ChromeOptions()
+
 chrome_options.add_experimental_option("detach", True)
 user_data_dir = os.path.join(os.getcwd(), "chrome_profile")
-os.makedirs(user_data_dir, exist_ok=True)
 chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
+driver = webdriver.Chrome(options=chrome_options)
+driver.get(GYM_URL)
 
-URL = "https://github.io"
+wait = WebDriverWait(driver, 2)
 
+driver.get(GYM_URL)
 
-def retry(func, retries=7, delay=2, description="Action"):
-    for attempt in range(1, retries + 1):
+# ----------------  Step 9: Network Resilience ----------------
+
+# Simple retry wrapper
+def retry(func, retries=7, description=None):
+    for i in range(retries):
+        print(f"Trying {description}. Attempt: {i + 1}")
         try:
             return func()
-        except (WebDriverException, NoSuchElementException, TimeoutException) as e:
-            print(
-                f"⚠️ [Attempt {attempt}/{retries}] {description} failed due to network chaos. Retrying in {delay}s...")
-            time.sleep(delay)
-            if attempt == retries:
-                print(f"❌ [CRITICAL] {description} completely failed after {retries} attempts.")
-                raise e
+        except TimeoutException:
+            if i == retries - 1:
+                raise
+            time.sleep(1)
+
+def login():
+    login_btn = wait.until(ec.element_to_be_clickable((By.ID, "login-button")))
+    login_btn.click()
+
+    email_input = wait.until(ec.presence_of_element_located((By.ID, "email-input")))
+    email_input.clear()
+    email_input.send_keys(ACCOUNT_EMAIL)
+
+    password_input = driver.find_element(By.ID, "password-input")
+    password_input.clear()
+    password_input.send_keys(ACCOUNT_PASSWORD)
+
+    submit_btn = driver.find_element(By.ID, "submit-button")
+    submit_btn.click()
+
+    wait.until(ec.presence_of_element_located((By.ID, "schedule-page")))
 
 
-def login_user(driver, wait):
-    driver.get(URL)
-    enter_bottom = driver.find_element(By.CLASS_NAME, "Home_heroButton__3eeI3")
-    enter_bottom.click()
+def book_class(booking_button):
+    booking_button.click()
+    # Wait for button state to change - will time out if booking failed
+    wait.until(lambda d: booking_button.text == "Booked")
 
-    email_entry = driver.find_element(By.ID, "email-input")
-    email_entry.clear()
-    email_entry.send_keys(os.getenv("EMAIL"))
+retry(login, description="login")
 
-    password_entry = driver.find_element(By.ID, "password-input")
-    password_entry.clear()
-    password_entry.send_keys(os.getenv("PASSWORD"))
+class_cards = driver.find_elements(By.CSS_SELECTOR, "div[id^='class-card-']")
+booked_count = 0
+waitlist_count = 0
+already_booked_count = 0
+processed_classes = []
 
-    login_button = driver.find_element(By.ID, "submit-button")
-    login_button.click()
-
-    wait.until(EC.presence_of_all_elements_located((By.ID, "schedule-page")))
-    print("✓ Login Successful")
-
-
-def process_single_class_card(driver, card, stats_dict):
+for card in class_cards:
     day_group = card.find_element(By.XPATH, "./ancestor::div[contains(@id, 'day-group-')]")
     day_title = day_group.find_element(By.TAG_NAME, "h2").text
 
@@ -60,121 +76,67 @@ def process_single_class_card(driver, card, stats_dict):
         if "6:00 PM" in time_text:
             class_name = card.find_element(By.CSS_SELECTOR, "h3[id^='class-name-']").text
             button = card.find_element(By.CSS_SELECTOR, "button[id^='book-button-']")
-            button_text = button.text
+            class_info = f"{class_name} on {day_title}"
 
-            stats_dict["total"] += 1
-
-            if button_text in ["Booked", "Waitlisted"]:
-                print(f"✓ Already processed: {class_name} on {day_title} ({button_text})")
-                stats_dict["already"] += 1
-                stats_dict["log"].append(f"[Already Booked/Waitlisted] {class_name} on {day_title}")
-                return
-
-            def execute_click_action():
-                current_btn = card.find_element(By.CSS_SELECTOR, "button[id^='book-button-']")
-                current_text = current_btn.text
-
-                if current_text in ["Booked", "Waitlisted"]:
-                    return current_text
-
-                current_btn.click()
-
-                inner_wait = WebDriverWait(driver, 3)
-                inner_wait.until(
-                    lambda d: card.find_element(By.CSS_SELECTOR, "button[id^='book-button-']").text in ["Booked",
-                                                                                                        "Waitlisted"])
-                return card.find_element(By.CSS_SELECTOR, "button[id^='book-button-']").text
-
-            final_status = retry(
-                execute_click_action,
-                retries=7,
-                description=f"Booking {class_name} on {day_title}"
-            )
-
-            if final_status == "Booked":
-                print(f"✓ Successfully booked: {class_name} on {day_title}")
-                stats_dict["booked"] += 1
-                stats_dict["log"].append(f"[New Booking] {class_name} on {day_title}")
-            elif final_status == "Waitlisted":
-                print(f"✓ Joined waitlist for: {class_name} on {day_title}")
-                stats_dict["waitlist"] += 1
-                stats_dict["log"].append(f"[New Waitlist] {class_name} on {day_title}")
+            if button.text == "Booked":
+                print(f"✓ Already booked: {class_info}")
+                already_booked_count += 1
+                processed_classes.append(f"[Booked] {class_info}")
+            elif button.text == "Waitlisted":
+                print(f"✓ Already on waitlist: {class_info}")
+                already_booked_count += 1
+                processed_classes.append(f"[Waitlisted] {class_info}")
+            elif button.text == "Book Class":
+                retry(lambda: book_class(button), description="Booking")
+                print(f"✓ Successfully booked: {class_info}")
+                booked_count += 1
+                processed_classes.append(f"[New Booking] {class_info}")
+                time.sleep(0.5)
+            elif button.text == "Join Waitlist":
+                retry(lambda: book_class(button), description="Waitlisting")
+                print(f"✓ Joined waitlist for: {class_info}")
+                waitlist_count += 1
+                processed_classes.append(f"[New Waitlist] {class_info}")
+                time.sleep(0.5)
 
 
-def navigate_and_fetch_bookings(driver):
-    bookings_nav_button = driver.find_element(By.LINK_TEXT, "My Bookings")
-    bookings_nav_button.click()
+total_booked = already_booked_count + booked_count + waitlist_count
+print(f"\n--- Total Tuesday/Thursday 6pm classes: {total_booked} ---")
+print("\n--- VERIFYING ON MY BOOKINGS PAGE ---")
 
-    wait = WebDriverWait(driver, 5)
-    wait.until(EC.presence_of_element_located((By.CLASS_NAME, "booking-item")))
+def get_my_bookings():
+    my_bookings_link = wait.until(ec.element_to_be_clickable((By.ID, "my-bookings-link")))
+    my_bookings_link.click()
+    wait.until(ec.presence_of_element_located((By.ID, "my-bookings-page")))
 
-    my_bookings_list = driver.find_elements(By.CSS_SELECTOR, ".booking-item")
+    cards = driver.find_elements(By.CSS_SELECTOR, "div[id*='card-']")
 
-    extracted_data = []
-    for booking in my_bookings_list:
-        name_text = booking.find_element(By.CSS_SELECTOR, ".booking-name").text
-        status_text = booking.find_element(By.CSS_SELECTOR, ".booking-status").text
-        extracted_data.append({"name": name_text, "status": status_text})
-
-    return extracted_data
+    if not cards:
+        raise TimeoutException("No booking cards found - page may not have loaded")
+    return cards
 
 
-def run_resilient_booking_pipeline():
-    driver = webdriver.Chrome(options=chrome_options)
-    wait = WebDriverWait(driver, 10)
+all_cards = retry(get_my_bookings, description="Get my bookings")
 
-    stats = {"booked": 0, "waitlist": 0, "already": 0, "total": 0, "log": []}
+verified_count = 0
 
+for card in all_cards:
     try:
-        retry(lambda: login_user(driver, wait), retries=7, description="User Authentication Portal")
+        when_paragraph = card.find_element(By.XPATH, ".//p[strong[text()='When:']]")
+        when_text = when_paragraph.text
 
-        class_cards = driver.find_elements(By.CSS_SELECTOR, ".card, .class-box")
-        for card in class_cards:
-            process_single_class_card(driver, card, stats)
+        if ("Tue" in when_text or "Thu" in when_text) and "6:00 PM" in when_text:
+            class_name = card.find_element(By.TAG_NAME, "h3").text
+            print(f"  ✓ Verified: {class_name}")
+            verified_count += 1
+    except NoSuchElementException:
+        pass
 
-        print("\n--- BOOKING SUMMARY ---")
-        print(f"New bookings: {stats['booked']}")
-        print(f"New waitlist entries: {stats['waitlist']}")
-        print(f"Already booked/waitlisted: {stats['already']}")
-        print(f"Total Tuesday & Thursday 6pm classes: {stats['total']}")
+print(f"\n--- VERIFICATION RESULT ---")
+print(f"Expected: {total_booked} bookings")
+print(f"Found: {verified_count} bookings")
 
-        print("\n--- DETAILED CLASS LIST ---")
-        for log_entry in stats["log"]:
-            print(f"  • {log_entry}")
-        print(f"\n--- Total Tuesday/Thursday 6pm classes: {stats['total']} ---\n")
-
-        print("--- VERIFYING ON MY BOOKINGS PAGE ---")
-
-        verified_rows = retry(
-            lambda: navigate_and_fetch_bookings(driver),
-            retries=7,
-            description="Navigating & Extracting Profile Dashboard Data"
-        )
-
-        found_bookings = 0
-        for row in verified_rows:
-            if "Waitlist" in row["status"]:
-                print(f"  ✓ Verified: {row['name']} (Waitlist)")
-            else:
-                print(f"  ✓ Verified: {row['name']}")
-            found_bookings += 1
-
-        print("\n--- VERIFICATION RESULT ---")
-        expected_label = "booking" if stats['total'] == 1 else "bookings"
-        found_label = "booking" if found_bookings == 1 else "bookings"
-
-        print(f"Expected: {stats['total']} {expected_label}")
-        print(f"Found: {found_bookings} {found_label}")
-
-        if stats['total'] == found_bookings:
-            print("✅ SUCCESS: All bookings verified with zero structural data loss!")
-        else:
-            mismatch = stats['total'] - found_bookings
-            print(f"❌ MISMATCH: Missing {mismatch} bookings")
-
-    finally:
-        driver.quit()
-
-
-if __name__ == "__main__":
-    run_resilient_booking_pipeline()
+if total_booked == verified_count:
+    print("✅ SUCCESS: All bookings verified!")
+else:
+    print(f"❌ MISMATCH: Missing {total_booked - verified_count} bookings")
