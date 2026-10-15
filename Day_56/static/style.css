@@ -1,140 +1,99 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
-  color: #40514E;
-  margin: 0;
-  text-align: center;
-  font-family: 'Merriweather', serif;
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    color: #f5f3ff;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at 15% 15%, rgba(103, 232, 249, 0.20), transparent 32%),
+        radial-gradient(circle at 85% 80%, rgba(167, 139, 250, 0.26), transparent 35%),
+        linear-gradient(135deg, #090b18, #17122c 55%, #080d1c);
+}
+
+.card {
+    width: min(100%, 540px);
+    padding: 48px 36px 30px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 28px;
+    background: rgba(20, 18, 42, 0.82);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(12px);
+}
+
+.avatar {
+    width: 112px;
+    height: 112px;
+    margin: 0 auto 24px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.78);
+    background: linear-gradient(135deg, #a78bfa, #4f46e5 58%, #67e8f9);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 2px;
 }
 
 h1 {
-  color: #66BFBF;
-  font-size: 5.625rem;
-  margin: 50px auto 0 auto;
-  font-family: 'Sacramento', cursive;
+    margin: 0;
+    font-size: clamp(2.2rem, 7vw, 3.2rem);
+    letter-spacing: -1.5px;
 }
 
-h2 {
-  color: #66BFBF;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 2.5rem;
-  font-weight: normal;
-  padding-bottom: 10px;
+.subtitle {
+    margin: 12px 0 20px;
+    color: #67e8f9;
+    font-weight: 600;
 }
 
-h3 {
-  color: #11999E;
-  font-family: 'Montserrat', sans-serif;
+.bio {
+    max-width: 380px;
+    margin: 0 auto;
+    color: #c7c3df;
+    line-height: 1.7;
 }
 
-p {
-  line-height: 2;
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 30px 0 28px;
 }
 
-hr {
-  border: dotted #EAF6F6 6px;
-  border-bottom: none;
-  width: 4%;
-  margin: 100px auto;
+.social-links a {
+    min-width: 88px;
+    padding: 11px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    color: #f5f3ff;
+    text-decoration: none;
 }
 
-a{
-  color: #11999E;
-  font-family: 'Montserrat', sans-serif;
-  margin: 10px 20px;
-  text-decoration: none;
+.social-links a:hover {
+    background: rgba(167, 139, 250, 0.18);
+    border-color: #a78bfa;
 }
 
-a:hover {
-  color: #EAF6F6;
+footer {
+    color: #918ba9;
+    font-size: 0.85rem;
 }
 
-.top-container {
-  background-color: #E4F9F5;
-  position: relative;
-  padding-top: 100px;
-}
+@media (max-width: 420px) {
+    .card {
+        padding: 36px 22px 26px;
+    }
 
-.middle-container {
-  margin: 100px 0;
-}
-
-.bottom-container {
-  background-color: #66BFBF;
-  padding: 50px 0 20px;
-}
-
-.skill-row {
-  width: 50%;
-  margin: 100px auto 100px auto;
-  text-align: left;
-}
-
-.pro {
-  text-decoration: underline;
-}
-
-.intro {
-  width: 30%;
-  margin: auto;
-}
-
-.contact-message {
-  width: 40%;
-  margin: 40px auto 60px;
-}
-
-.copyright {
-  color: #EAF6F6;
-  font-size: 0.75rem;
-  padding: 20px 0;
-}
-
-.top-cloud {
-  position: absolute;
-  right: 300px;
-  top: 40px;
-}
-
-.bottom-cloud {
-  position: absolute;
-  left: 250px;
-  bottom: 300px;
-}
-
-.code-img {
-  width: 25%;
-  float: left;
-  margin-right: 30px;
-}
-
-.chilli-img {
-  width: 25%;
-  float: right;
-  margin-left: 30px;
-}
-
-.btn {
-  background: #11cdd4;
-  background-image: -webkit-linear-gradient(top, #11cdd4, #11999e);
-  background-image: -moz-linear-gradient(top, #11cdd4, #11999e);
-  background-image: -ms-linear-gradient(top, #11cdd4, #11999e);
-  background-image: -o-linear-gradient(top, #11cdd4, #11999e);
-  background-image: linear-gradient(to bottom, #11cdd4, #11999e);
-  -webkit-border-radius: 8;
-  -moz-border-radius: 8;
-  border-radius: 8px;
-  font-family: 'Montserrat', sans-serif;
-  color: #ffffff;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
-}
-
-.btn:hover {
-  background: #30e3cb;
-  background-image: -webkit-linear-gradient(top, #30e3cb, #2bc4ad);
-  background-image: -moz-linear-gradient(top, #30e3cb, #2bc4ad);
-  background-image: -ms-linear-gradient(top, #30e3cb, #2bc4ad);
-  background-image: -o-linear-gradient(top, #30e3cb, #2bc4ad);
-  background-image: linear-gradient(to bottom, #30e3cb, #2bc4ad);
-  text-decoration: none;
+    .social-links {
+        gap: 8px;
+    }
 }
