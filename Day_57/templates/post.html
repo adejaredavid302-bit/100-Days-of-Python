@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post["title"] }} | My Blog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="article-header">
+        <a class="back-link" href="{{ url_for('home') }}">← All posts</a>
+        <p class="eyebrow">FROM THE BLOG</p>
+        <h1>{{ post["title"] }}</h1>
+        <p class="hero-subtitle">{{ post["subtitle"] }}</p>
+    </header>
+    <main class="article-container">
+        <article class="article-body">{{ post["body"] }}</article>
+        <a class="read-link" href="{{ url_for('home') }}">← Back to all posts</a>
+    </main>
+    <footer class="site-footer">Made with Flask and Python</footer>
+</body>
+</html>

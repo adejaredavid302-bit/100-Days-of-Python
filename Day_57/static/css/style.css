@@ -1,0 +1,47 @@
+* { box-sizing: border-box; }
+:root {
+    --background: #f7f5f0;
+    --paper: #fffefa;
+    --text: #242321;
+    --muted: #77736b;
+    --accent: #b45f43;
+    --line: #e5dfd5;
+}
+body {
+    margin: 0; background: var(--background); color: var(--text);
+    font-family: Georgia, "Times New Roman", serif; line-height: 1.7;
+}
+.hero, .article-header {
+    text-align: center; padding: 76px 24px 66px;
+    background: #242321; color: #fffefa;
+}
+.eyebrow {
+    margin: 0 0 12px; color: #d9a18c; font-family: Arial, sans-serif;
+    font-size: .72rem; font-weight: bold; letter-spacing: .2em;
+}
+h1 { margin: 0; font-size: clamp(2.8rem, 8vw, 5rem); line-height: 1.1; letter-spacing: -.04em; }
+.hero-subtitle { margin: 18px 0 0; color: #d8d2c9; font-size: 1.15rem; }
+.container { width: min(760px, calc(100% - 36px)); margin: 42px auto 70px; }
+.post-preview {
+    margin-bottom: 22px; padding: 30px 34px; background: var(--paper);
+    border: 1px solid var(--line); border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(36,35,33,.035);
+}
+.post-number { margin: 0 0 7px; color: var(--accent); font-family: Arial, sans-serif; font-size: .7rem; font-weight: bold; letter-spacing: .15em; }
+.post-preview h2 { margin: 0; font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.25; }
+.subtitle { margin: 9px 0 18px; color: var(--muted); font-size: 1.05rem; }
+.read-link, .back-link { color: var(--accent); font-family: Arial, sans-serif; font-size: .9rem; font-weight: bold; text-decoration: none; }
+.read-link:hover, .back-link:hover { text-decoration: underline; }
+.article-header { padding-top: 85px; }
+.back-link { display: inline-block; margin-bottom: 35px; color: #e6b7a5; }
+.article-container {
+    width: min(700px, calc(100% - 36px)); margin: 48px auto 75px; padding: 38px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 10px;
+}
+.article-body { margin-bottom: 32px; font-size: 1.1rem; line-height: 1.95; white-space: pre-line; }
+.site-footer { padding: 24px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-family: Arial, sans-serif; font-size: .8rem; }
+@media (max-width: 520px) {
+    .hero, .article-header { padding: 54px 18px 48px; }
+    .post-preview { padding: 24px 22px; }
+    .article-container { padding: 25px 22px; }
+}
