@@ -1,7 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 import requests
-
-# USE YOUR OWN npoint LINK! ADD AN IMAGE URL FOR YOUR POST. 👇
+import smtplib
+from dotenv import load_dotenv
+import os
+load_dotenv()
+user=os.getenv("USER")
+password=os.getenv("PASSWORD")
 posts = requests.get("https://api.npoint.io/c790b4d5cab58020d391").json()
 
 app = Flask(__name__)
@@ -29,7 +33,28 @@ def show_post(index):
         if blog_post["id"] == index:
             requested_post = blog_post
     return render_template("post.html", post=requested_post)
+@app.route("/form-entry", methods=["POST"])
+def form_entry():
+    if request.method == "POST":
+        global name,email,phone,message
+        name = request.form["name"]
+        email = request.form["email"]
+        phone = request.form["phone"]
+        message = request.form["message"]
+        print(f"{name}, {email}, {phone}, {message}")
+        return "<h1>Successfully sent your message”. </h1>"
 
-
+message=(f"SUBJECT:\n\n"
+         f"name={name}"
+        f"email={email}"
+        f"phone={phone}"
+        f"email={message}"
+         )
+def send_mail():
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login(user, password)
+        server.sendmail(user,user,message)
+        server.quit()
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
