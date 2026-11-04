@@ -3,6 +3,8 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Day_61_starting-files-flask-secrets/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Day_61_Bootstrap_Flask_Login_Form/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="~\PycharmProjects\100-Days-of-Python\.venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
