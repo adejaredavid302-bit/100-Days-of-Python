@@ -12,7 +12,7 @@ A Coffee & WiFi website where users can:
 - See cafe details, including location, opening hours, and ratings.
 - Rate coffee, WiFi, and power outlet availability.
 
-## 🚀 Features
+## Features
 - **Home Page:** Introduces the Coffee & WiFi website.
 - **Add Cafe:** Allows users to submit new cafe information.
 - **All Cafes:** Displays cafe information from a CSV file.
