@@ -5,6 +5,8 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/Day_61_starting-files-flask-secrets/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/Day_61_Bootstrap_Flask_Login_Form/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/day-63-starting-files-library-project/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Day_63_Virtual_Bookshelf/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="~\PycharmProjects\100-Days-of-Python\.venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
