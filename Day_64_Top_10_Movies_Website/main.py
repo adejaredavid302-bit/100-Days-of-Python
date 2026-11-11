@@ -7,7 +7,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, FloatField
 from wtforms.validators import DataRequired
 import requests
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 Bootstrap5(app)
@@ -87,7 +89,7 @@ def rate_movie():
 
 
 
-TMDB_API_KEY = "YOUR_ACTUAL_API_KEY_HERE"
+TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 TMDB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
 TMDB_MOVIE_DETAILS_URL = "https://api.themoviedb.org/3/movie"
 
